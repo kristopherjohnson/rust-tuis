@@ -3,16 +3,19 @@ extern crate cursive;
 
 use chrono::{Local, Utc};
 
+use cursive::theme::{BorderStyle, Palette, Theme};
 use cursive::views::{Dialog, LinearLayout, TextContent, TextView};
 use cursive::Cursive;
 
 fn main() {
     let mut app = Cursive::default();
 
+    app.set_theme(theme());
+
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
 
-    let time_format = "%Y-%m-%d %H:%M:%S%.3f";
+    let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
 
     // Create text views for the clock elements
     let mut utc_content = TextContent::new("");
@@ -26,7 +29,7 @@ fn main() {
     layout.add_child(local_text);
 
     // Put the layout in a centered dialog
-    app.add_layer(Dialog::around(layout).title("Clock"));
+    app.add_layer(Dialog::around(layout));
 
     // Refresh the screen on every iteration of the loop
     app.set_autorefresh(true);
@@ -40,5 +43,13 @@ fn main() {
         local_content.set_content(format!("Local: {}", local.format(time_format)));
 
         app.step();
+    }
+}
+
+fn theme() -> Theme {
+    Theme {
+        shadow: false,
+        borders: BorderStyle::None,
+        palette: Palette::default(),
     }
 }
