@@ -10,7 +10,11 @@ use cursive::Cursive;
 fn main() {
     let mut app = Cursive::default();
 
-    app.set_theme(theme());
+    app.set_theme(Theme {
+        shadow: false,
+        borders: BorderStyle::None,
+        palette: Palette::default(),
+    });
 
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
@@ -43,13 +47,5 @@ fn main() {
         local_content.set_content(format!("Local: {}", local.format(time_format)));
 
         app.step();
-    }
-}
-
-fn theme() -> Theme {
-    Theme {
-        shadow: false,
-        borders: BorderStyle::None,
-        palette: Palette::default(),
     }
 }
