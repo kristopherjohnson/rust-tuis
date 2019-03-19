@@ -3,8 +3,7 @@ extern crate cursive;
 
 use chrono::{Local, Utc};
 
-use cursive::traits::*;
-use cursive::views::{Dialog, LinearLayout, TextView};
+use cursive::views::{Dialog, LinearLayout, TextContent, TextView};
 use cursive::Cursive;
 
 fn main() {
@@ -13,13 +12,13 @@ fn main() {
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
 
-    let utc_id = "utc";
-    let local_id = "local";
     let time_format = "%Y-%m-%d %H:%M:%S%.3f";
 
     // Create text views for the clock elements
-    let utc_text = TextView::new("").with_id(utc_id);
-    let local_text = TextView::new("").with_id(local_id);
+    let mut utc_content = TextContent::new("");
+    let utc_text = TextView::new_with_content(utc_content.clone());
+    let mut local_content = TextContent::new("");
+    let local_text = TextView::new_with_content(local_content.clone());
 
     // Add text views to a layout
     let mut layout = LinearLayout::vertical();
@@ -37,14 +36,8 @@ fn main() {
         let utc = Utc::now();
         let local = Local::now();
 
-        app.call_on_id(utc_id, |v: &mut TextView| {
-            let content = format!("UTC:   {}", utc.format(time_format));
-            v.set_content(content);
-        });
-        app.call_on_id(local_id, |v: &mut TextView| {
-            let content = format!("Local: {}", local.format(time_format));
-            v.set_content(content);
-        });
+        utc_content.set_content(format!("UTC:   {}", utc.format(time_format)));
+        local_content.set_content(format!("Local: {}", local.format(time_format)));
 
         app.step();
     }
