@@ -6,6 +6,9 @@ use chrono::{Local, Utc};
 use cursive::theme::{BorderStyle, Palette, Theme};
 use cursive::views::{Dialog, LinearLayout, TextContent, TextView};
 use cursive::Cursive;
+use cursive::theme::PaletteColor::*;
+use cursive::theme::Color::*;
+use cursive::theme::BaseColor::*;
 
 fn main() {
     let mut app = Cursive::default();
@@ -13,7 +16,7 @@ fn main() {
     app.set_theme(Theme {
         shadow: false,
         borders: BorderStyle::None,
-        palette: Palette::default(),
+        palette: palette(),
     });
 
     // Hit 'q' to quit
@@ -48,4 +51,12 @@ fn main() {
 
         app.step();
     }
+}
+
+fn palette() -> Palette {
+    let mut p = Palette::default();
+    p[Background] = Dark(Black);
+    p[View] = Dark(Black);
+    p[Primary] = Light(Yellow);
+    p
 }
