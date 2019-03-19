@@ -1,14 +1,11 @@
 extern crate chrono;
 extern crate cursive;
 
-use chrono::format::{DelayedFormat, StrftimeItems};
-use chrono::{DateTime, Local, TimeZone, Utc};
+use chrono::{Local, Utc};
 
 use cursive::traits::*;
 use cursive::views::{Dialog, LinearLayout, TextView};
 use cursive::Cursive;
-
-use std::fmt::Display;
 
 fn main() {
     let mut app = Cursive::default();
@@ -16,9 +13,13 @@ fn main() {
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
 
+    let utc_id = "utc";
+    let local_id = "local";
+    let time_format = "%Y-%m-%d %H:%M:%S%.3f";
+
     // Create text views for the clock elements
-    let utc_text = TextView::new("").with_id("utc");
-    let local_text = TextView::new("").with_id("local");
+    let utc_text = TextView::new("").with_id(utc_id);
+    let local_text = TextView::new("").with_id(local_id);
 
     // Add text views to a layout
     let mut layout = LinearLayout::vertical();
@@ -36,23 +37,15 @@ fn main() {
         let utc = Utc::now();
         let local = Local::now();
 
-        app.call_on_id("utc", |v: &mut TextView| {
-            let content = format!("UTC:   {}", format_for_clock(utc));
+        app.call_on_id(utc_id, |v: &mut TextView| {
+            let content = format!("UTC:   {}", utc.format(time_format));
             v.set_content(content);
         });
-        app.call_on_id("local", |v: &mut TextView| {
-            let content = format!("Local: {}", format_for_clock(local));
+        app.call_on_id(local_id, |v: &mut TextView| {
+            let content = format!("Local: {}", local.format(time_format));
             v.set_content(content);
         });
 
         app.step();
     }
-}
-
-/// Format a DateTime<Tz> value for clock display
-fn format_for_clock<'a, Tz: TimeZone>(dt: DateTime<Tz>) -> DelayedFormat<StrftimeItems<'a>>
-where
-    Tz::Offset: Display,
-{
-    dt.format("%Y-%m-%d %H:%M:%S%.3f")
 }
