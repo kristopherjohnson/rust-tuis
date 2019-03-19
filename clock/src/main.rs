@@ -13,11 +13,7 @@ use cursive::Cursive;
 fn main() {
     let mut app = Cursive::default();
 
-    app.set_theme(Theme {
-        shadow: false,
-        borders: BorderStyle::None,
-        palette: palette(),
-    });
+    app.set_theme(theme());
 
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
@@ -37,10 +33,8 @@ fn main() {
 
     app.add_layer(layout);
 
-    // Refresh the screen on every iteration of the loop
-    app.set_autorefresh(true);
-
     // Update the screen as quickly as Cursive::step() will run
+    app.set_autorefresh(true);
     while app.is_running() {
         let utc = Utc::now();
         let loc = Local::now();
@@ -52,10 +46,20 @@ fn main() {
     }
 }
 
+fn theme() -> Theme {
+    Theme {
+        shadow: false,
+        borders: BorderStyle::None,
+        palette: palette(),
+    }
+}
+
 fn palette() -> Palette {
-    let mut p = Palette::default();
-    p[Background] = Dark(Black);
-    p[View] = Dark(Black);
-    p[Primary] = Light(Yellow);
-    p
+    let mut pal = Palette::default();
+
+    pal[Background] = Dark(Black);
+    pal[View] = Dark(Black);
+    pal[Primary] = Light(Yellow);
+
+    pal
 }
