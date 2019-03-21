@@ -19,6 +19,11 @@ fn main() {
 
     let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
     loop {
+        // Press any key to exit
+        if let Some(_) = window.getch() {
+            break;
+        }
+
         let utc = Utc::now();
         let loc = Local::now();
 
@@ -32,15 +37,10 @@ fn main() {
         window.mv(y + 1, x + 1);
         window.printw(format!("UTC:   {}", utc_string));
 
-        window.mv(y + 3, x + 1);
+        window.mv(y + 2, x + 1);
         window.printw(format!("Local: {}", loc_string));
 
         window.refresh();
-
-        // Press any key to exit
-        if let Some(_) = window.getch() {
-            break;
-        }
 
         thread::sleep(Duration::from_millis(50));
     }
