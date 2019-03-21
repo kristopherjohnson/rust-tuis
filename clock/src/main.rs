@@ -10,6 +10,9 @@ use cursive::theme::{BorderStyle, Palette, Theme};
 use cursive::views::{LinearLayout, TextContent, TextView};
 use cursive::Cursive;
 
+use std::thread;
+use std::time::Duration;
+
 fn main() {
     let mut app = Cursive::default();
 
@@ -17,8 +20,6 @@ fn main() {
 
     // Hit 'q' to quit
     app.add_global_callback('q', |app| app.quit());
-
-    let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
 
     // Create text views for the clock elements
     let mut utc_content = TextContent::new("UTC:   ");
@@ -33,17 +34,27 @@ fn main() {
 
     app.add_layer(layout);
 
-    // Update the screen as quickly as Cursive::step() will run
+    // Start a thread to update the display periodically
+    thread::spawn(move || {
+        let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
+
+        loop {
+            let utc = Utc::now();
+            let loc = Local::now();
+
+            let utc_string = utc.format(time_format);
+            let loc_string = loc.format(time_format);
+
+            utc_content.set_content(format!("UTC:   {}", utc_string));
+            loc_content.set_content(format!("Local: {}", loc_string));
+
+            thread::sleep(Duration::from_millis(100));
+        }
+    });
+
+    // Run the Cursive event loop
     app.set_autorefresh(true);
-    while app.is_running() {
-        let utc = Utc::now();
-        let loc = Local::now();
-
-        utc_content.set_content(format!("UTC:   {}", utc.format(time_format)));
-        loc_content.set_content(format!("Local: {}", loc.format(time_format)));
-
-        app.step();
-    }
+    app.run();
 }
 
 fn theme() -> Theme {
