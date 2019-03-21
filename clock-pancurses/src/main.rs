@@ -38,10 +38,11 @@ fn main() {
         window.refresh();
 
         // Press any key to exit
-        match window.getch() {
-            Some(_) => break,
-            None => thread::sleep(Duration::from_millis(50)),
+        if let Some(_) = window.getch() {
+            break;
         }
+
+        thread::sleep(Duration::from_millis(50));
     }
 
     endwin();
