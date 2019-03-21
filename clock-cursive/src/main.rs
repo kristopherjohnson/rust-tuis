@@ -1,3 +1,6 @@
+// Simple clock that displays UTC and local time, using the Cursive library
+// <https://github.com/gyscos/Cursive>
+
 extern crate chrono;
 extern crate cursive;
 
@@ -48,7 +51,7 @@ fn main() {
             utc_content.set_content(format!("UTC:   {}", utc_string));
             loc_content.set_content(format!("Local: {}", loc_string));
 
-            thread::sleep(Duration::from_millis(100));
+            thread::sleep(Duration::from_millis(50));
         }
     });
 
