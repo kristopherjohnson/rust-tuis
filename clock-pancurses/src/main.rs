@@ -28,6 +28,7 @@ fn main() {
     }
 
     let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
+
     loop {
         // Press any key to exit
         if let Some(_) = window.getch() {
@@ -36,16 +37,13 @@ fn main() {
 
         window.clear();
 
+        let utc = Utc::now().format(time_format);
+        let local = Local::now().format(time_format);
+
         let (y, x) = window.get_beg_yx();
 
-        let utc = Utc::now();
-        let loc = Local::now();
-
-        let utc_string = utc.format(time_format);
-        let loc_string = loc.format(time_format);
-
-        window.mvaddstr(y + 1, x + 1, format!("UTC:   {}", utc_string));
-        window.mvaddstr(y + 2, x + 1, format!("Local: {}", loc_string));
+        window.mvaddstr(y + 1, x + 1, format!("UTC:   {}", utc));
+        window.mvaddstr(y + 2, x + 1, format!("Local: {}", local));
 
         window.refresh();
 

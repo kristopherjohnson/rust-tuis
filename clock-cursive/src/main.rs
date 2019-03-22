@@ -42,14 +42,11 @@ fn main() {
         let time_format = "%Y-%m-%d %H:%M:%S%.3f %z";
 
         loop {
-            let utc = Utc::now();
-            let loc = Local::now();
+            let utc = Utc::now().format(time_format);
+            let local = Local::now().format(time_format);
 
-            let utc_string = utc.format(time_format);
-            let loc_string = loc.format(time_format);
-
-            utc_content.set_content(format!("UTC:   {}", utc_string));
-            loc_content.set_content(format!("Local: {}", loc_string));
+            utc_content.set_content(format!("UTC:   {}", utc));
+            loc_content.set_content(format!("Local: {}", local));
 
             thread::sleep(Duration::from_millis(50));
         }
