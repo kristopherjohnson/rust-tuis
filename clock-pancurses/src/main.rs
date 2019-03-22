@@ -34,21 +34,18 @@ fn main() {
             break;
         }
 
+        window.clear();
+
+        let (y, x) = window.get_beg_yx();
+
         let utc = Utc::now();
         let loc = Local::now();
 
         let utc_string = utc.format(time_format);
         let loc_string = loc.format(time_format);
 
-        window.clear();
-
-        let (y, x) = window.get_beg_yx();
-
-        window.mv(y + 1, x + 1);
-        window.printw(format!("UTC:   {}", utc_string));
-
-        window.mv(y + 2, x + 1);
-        window.printw(format!("Local: {}", loc_string));
+        window.mvaddstr(y + 1, x + 1, format!("UTC:   {}", utc_string));
+        window.mvaddstr(y + 2, x + 1, format!("Local: {}", loc_string));
 
         window.refresh();
 
