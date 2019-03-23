@@ -1,5 +1,5 @@
-// Simple clock that displays UTC and local time, using the pancurses library
-// <https://github.com/ihalila/pancurses>
+// Simple clock that displays UTC and local time, using the ncurses library
+// <https://github.com/jeaye/ncurses-rs>
 
 extern crate chrono;
 extern crate ncurses;
