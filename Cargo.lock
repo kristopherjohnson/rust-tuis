@@ -42,6 +42,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "clock-ncurses"
+version = "0.1.0"
+dependencies = [
+ "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ncurses 5.99.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "clock-pancurses"
 version = "0.1.0"
 dependencies = [
