@@ -1,4 +1,4 @@
-// Simple clock that displays UTC and local time, using the ncurses library
+// Simple clock that displays UTC and local time, using the ncurses-rs library
 // <https://github.com/jeaye/ncurses-rs>
 
 extern crate chrono;
