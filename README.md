@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kristopherjohnson/rust-tuis.svg?branch=master)](https://travis-ci.org/kristopherjohnson/rust-tuis)
+
 Rust TUI Experiments
 ====================
 
